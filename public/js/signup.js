@@ -15,5 +15,8 @@ const register = () => {
             "id": id,
             "name": name
         }),
-    }).then(() => {}).catch(e => console.log(e));
+    }).then(() => {
+        alert("Registered!");
+        window.location.href = "/";
+    }).catch(e => console.log(e));
 }

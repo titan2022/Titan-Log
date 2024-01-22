@@ -43,27 +43,24 @@ module.exports = {
     },
 
     getLeaderboard: () => {
-        fs.readFile('./db.json', (err, data) => {
-            if (err) {
-                throw err;
-            }
-            const content = JSON.parse(data);
+        const data = fs.readFileSync('./db.json');
 
-            let unsortedList = [];
+        const content = JSON.parse(data);
 
-            Object.keys(content).forEach(key => {
-                const value = content[key];
+        let unsortedList = [];
 
-                unsortedList.push({
-                    "name": value["name"],
-                    "totalTime": value["totalTime"]
-                });
+        Object.keys(content).forEach(key => {
+            const value = content[key];
+
+            unsortedList.push({
+                "name": value["name"],
+                "totalTime": value["totalTime"]
             });
-
-            const sortedList = unsortedList.sort((a, b) => b["totalTime"] - a["totalTime"]);
-
-            return sortedList;
         });
+
+        const sortedList = unsortedList.sort((a, b) => b["totalTime"] - a["totalTime"]);
+
+        return sortedList;
     },
 
     registerUser: (id, name) => {

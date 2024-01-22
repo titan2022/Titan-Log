@@ -1,13 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap');
+
+:root {
+    --x: -0;
+    --y: 0;
+}
+
+* {
+    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
+}
+
 body {
     text-align: center;
 }
-a.button {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
-    padding: 10px;
-    border: 1px solid black;
 
+.button {
+    padding: 16px;
+    background-color: #80bdff;
+    color: white;
+    border-radius: 8px;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.button:hover {
+    color: #2e93ff;
+    background-color: #e1f0ff;
+}
+
+a.button {
     text-decoration: none;
-    color: initial;
+}
+
+
+
+
+
+#leaderboard {
+    width: 400px;
+    margin: auto;
+    text-align: left;
+}
+
+.lb-item {
+    padding: 16px;
+    border-bottom: 1px #c4c4c4 solid;
+}
+
+.lb-item > div {
+    display: inline;
+    position: relative;
+}
+
+.lb-name {
+
+}
+
+.lb-time {
+    float: right;
+}
+
+
+
+
+.option-container {
+    padding: 16px;
+    padding-top: 0px;
+}
+
+input {
+    outline: none;
+    margin-left: 8px;
+}
+
+.option-label {
+    display: inline-block;
+}
+
+.option-input {
+    display: inline-block;
 }
