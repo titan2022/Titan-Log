@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="/css/index.css">
     </head>
     <body>
         <div id="h">
-            <h1>FRC Logs</h1>
+            <h1>Sign Up</h1>
         </div>
-        <form action="log.html">
-            <label for="id">ID:</label>
-            <input id="id" type="text">
-            <label for="name">Name:</label>
-            <input id="name" type="text">
-            <button onclick="newUser()">Make New User</button>
-        </form>
+        <div class="option-container">
+            <div class="option">
+                <div class="option-label">ID: </div>
+                <input id="id-input" class="option-input" type="text">
+            </div>
+            <div class="option">
+                <div class="option-label">Name: </div>
+                <input id="name-input" class="option-input" type="text">
+            </div>
+        </div>
+        <div class="button" onclick="register()">Sign Up</div>
         <br>
-        <a href="../woo/signin.html" class="button">Sign In</a>
-        <a href="../woo/index.html" class="button">Home</a>
+        <a href="/signin.html" class="button">Sign In</a>
+        <a href="/index.html" class="button">Home</a>
     </body>
-    <script src="index.js"></script>
+    <script src="/js/signup.js"></script>
 </html>

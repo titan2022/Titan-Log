@@ -1,26 +1,28 @@
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const fs = require("fs");
-const {getAllUsers,getUserTime,getUserStatus,getLeaderboard,registerUser,getNameFromRandId,startUserHours} = require("./db.js");
+const {getAllUsers,getUserTime,getUserStatus,getUserId,getLeaderboard,registerUser,getNameFromRandId,startUserHours,endUserHours} = require("./db.js");
 
 const app = express();
 
 const publicdir = __dirname + "/public";
 app.use(express.static(publicdir, {extensions:["html"]}));
+app.use(bodyParser.json())
 
 app.get("/getAllUsers", (req, res) => {
     const allUsers = getAllUsers();
     res.json(allUsers);
 });
 
-app.get("/getUserTime", (req, res) => {
+app.post("/getUserTime", (req, res) => {
     const userTime =  getUserTime(req.body["id"]);
     res.json({
         "totalTime": userTime
     });
 });
 
-app.get("/getUserStatus", (req, res) => {
+app.post("/getUserStatus", (req, res) => {
     const userStatus =  getUserStatus(req.body["id"]);
     res.json({
         "status": userStatus
@@ -32,16 +34,19 @@ app.get("/getLeaderboard", (req, res) => {
     res.json(leaderboard)
 });
 
-app.get("/registerUser", (req, res) => {
+app.post("/registerUser", (req, res) => {
     registerUser(req.body["id"], req.body["name"]);
+    res.json({});
 });
 
-app.get("/startUserHours", (req, res) => {
+app.post("/startUserHours", (req, res) => {
     startUserHours(req.body["id"]);
+    res.json({});
 });
 
-app.get("/endUserHours", (req, res) => {
-    startUserHours(req.body["id"], startUserHours(req.body["message"]));
+app.post("/endUserHours", (req, res) => {
+    endUserHours(req.body["id"], req.body["message"]);
+    res.json({});
 });
 
 const PORT = process.env.PORT || 3000;

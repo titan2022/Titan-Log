@@ -11,7 +11,7 @@ module.exports = {
                 "name": content[key]["name"],
                 "id": key
             });
-        }); 
+        });
 
         return userList;
     },
@@ -25,25 +25,21 @@ module.exports = {
 
             if (content[id] == undefined) {
                 return null;
-            } 
-            
+            }
+
             return content[id]["totalTime"];
         });
     },
 
     getUserStatus: (id) => {
-        fs.readFile('./db.json', (err, data) => {
-            if (err) {
-                throw err;
-            }
-            const content = JSON.parse(data);
+        const data = fs.readFileSync('./db.json');
+        const content = JSON.parse(data);
 
-            if (content[id] == undefined) {
-                resolve(null);
-            } 
-            
-            return content[id]["working"];
-        });
+        if (content[id] == undefined) {
+            return null;
+        }
+
+        return content[id]["working"];
     },
 
     getLeaderboard: () => {
@@ -54,7 +50,7 @@ module.exports = {
             const content = JSON.parse(data);
 
             let unsortedList = [];
-            
+
             Object.keys(content).forEach(key => {
                 const value = content[key];
 
@@ -63,12 +59,12 @@ module.exports = {
                     "totalTime": value["totalTime"]
                 });
             });
-            
+
             const sortedList = unsortedList.sort((a, b) => b["totalTime"] - a["totalTime"]);
 
             return sortedList;
         });
-    }, 
+    },
 
     registerUser: (id, name) => {
         function makeid(length) {
@@ -77,36 +73,37 @@ module.exports = {
             const charactersLength = characters.length;
             let counter = 0;
             while (counter < length) {
-              result += characters.charAt(Math.floor(Math.random() * charactersLength));
-              counter += 1;
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                counter += 1;
             }
             return result;
         }
-    
+
         let data = fs.readFileSync('./db.json', (err) => {
-            if (err) throw err})
-            
-            let content = JSON.parse(data);
-            let newId = makeid(7);
-        
-            while (content[newId] != undefined) {
-                newId = makeid(7);
-            }
-            
-            content[newId] = {
-                "name": name,
-                "totalTime": 0,
-                "schoold": id,
-                "working": false,
-                "logs": []
-                
-            }
+            if (err) throw err
+        })
 
-            fs.writeFileSync('./db.json', JSON.stringify(content), (err) => {
-                if (err) throw err;
-            });
+        let content = JSON.parse(data);
+        let newId = makeid(7);
 
-            return content[newId];
+        while (content[newId] != undefined) {
+            newId = makeid(7);
+        }
+
+        content[newId] = {
+            "name": name,
+            "totalTime": 0,
+            "schoold": id,
+            "working": false,
+            "logs": []
+
+        }
+
+        fs.writeFileSync('./db.json', JSON.stringify(content), (err) => {
+            if (err) throw err;
+        });
+
+        return content[newId];
     },
 
     startUserHours: (id) => {
@@ -118,7 +115,7 @@ module.exports = {
 
             if (content[id] == undefined) {
                 return null;
-            } 
+            }
 
             content[id]["working"] = true;
             content[id]["logs"].push({
@@ -135,40 +132,42 @@ module.exports = {
     },
 
     endUserHours: (id, message) => {
-        return new Promise((resolve) => {
-            fs.readFile('./db.json', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-                let content = JSON.parse(data);
+        console.log(id, message)
+        fs.readFile('./db.json', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            let content = JSON.parse(data);
 
-                if (content[id] == undefined) {
-                    resolve(null);
-                    return;
-                } 
+            if (content[id] == undefined) {
+                return;
+            }
 
-                contentp[id]["working"] = false;
-                content[id]["logs"].at(-1)["endHour"] = Date.now();
-                content[id]["logs"].at(-1)["message"] = message;
+            console.log(id, message)
 
-                fs.writeFile("./db.json", JSON.stringify(content), (err) => {
-                    if (err) throw err;
-                });
+            content[id]["working"] = false;
+            content[id]["logs"].at(-1)["endHour"] = Date.now();
+            content[id]["logs"].at(-1)["message"] = message;
 
-                resolve(true);
+            content[id]["totalTime"] += content[id]["logs"].at(-1)["endHour"] - content[id]["logs"].at(-1)["startHour"]
+
+            fs.writeFile("./db.json", JSON.stringify(content), (err) => {
+                if (err) throw err;
             });
+
+            return true;
         });
     },
-    
-    
-    
+
+
+
     clearSessions: () => {
         fs.readFile('./db.json', (err, data) => {
             if (err) {
                 throw err;
             }
             let content = JSON.parse(data);
-            
+
             Object.keys(content).forEach(key => {
                 const value = content[key];
 
@@ -186,20 +185,20 @@ module.exports = {
             });
         });
     },
-    
-    getNameFromRandId: function(randId)  {
-        
-        let data =  fs.readFileSync('./db.json');
-        let content =JSON.parse(data);
+
+    getNameFromRandId: function (randId) {
+
+        let data = fs.readFileSync('./db.json');
+        let content = JSON.parse(data);
 
         if (content[randId] == undefined) {
-            
+
             return undefined;
         }
         return content[randId]["name"]
-                
-               
-    
-        
+
+
+
+
     }
 }

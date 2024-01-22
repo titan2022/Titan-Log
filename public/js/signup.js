@@ -1,6 +1,6 @@
-function newUser() {
-    id = document.getElementById("id").innerText
-    n = document.getElementById("name").innerText
+const register = () => {
+    id = document.getElementById("id-input").value;
+    name = document.getElementById("name-input").value;
     fetch("/registerUser", {
         method: "POST",
         mode: "cors",
@@ -13,7 +13,7 @@ function newUser() {
         referrerPolicy: "no-referrer",
         body: JSON.stringify({
             "id": id,
-            "name": n
+            "name": name
         }),
     }).then(() => {}).catch(e => console.log(e));
 }
