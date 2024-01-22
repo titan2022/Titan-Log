@@ -5,9 +5,15 @@ module.exports = {
         const data = fs.readFileSync('./db.json');
         const content = JSON.parse(data);
 
+        let userList = [];
         Object.keys(content).forEach(key => {
-            
-        })
+            userList.push({
+                "name": content[key]["name"],
+                "id": key
+            });
+        }); 
+
+        return userList;
     },
 
     getUserTime: (id) => {
