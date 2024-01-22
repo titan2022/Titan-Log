@@ -1,46 +1,66 @@
 const fs = require("fs");
 
 module.exports = {
-    getUserTime: (id) => {
-        return new Promise((resolve) => {
-            fs.readFile('./db.json', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-                const content = JSON.parse(data);
+    getAllUsers: () => {
+        const data = fs.readFileSync('./db.json');
+        const content = JSON.parse(data);
 
-                if (content[id] == undefined) {
-                    resolve(null);
-                } 
-                
-                resolve(content[id]["totalTime"]);
-            });
+        Object.keys(content).forEach(key => {
+            
+        })
+    },
+
+    getUserTime: (id) => {
+        fs.readFile('./db.json', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            const content = JSON.parse(data);
+
+            if (content[id] == undefined) {
+                return null;
+            } 
+            
+            return content[id]["totalTime"];
+        });
+    },
+
+    getUserStatus: (id) => {
+        fs.readFile('./db.json', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            const content = JSON.parse(data);
+
+            if (content[id] == undefined) {
+                resolve(null);
+            } 
+            
+            return content[id]["working"];
         });
     },
 
     getLeaderboard: () => {
-        return new Promise((resolve) => {
-            fs.readFile('./db.json', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-                const content = JSON.parse(data);
+        fs.readFile('./db.json', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            const content = JSON.parse(data);
 
-                let unsortedList = [];
-                
-                Object.keys(content).forEach(key => {
-                    const value = content[key];
+            let unsortedList = [];
+            
+            Object.keys(content).forEach(key => {
+                const value = content[key];
 
-                    unsortedList.push({
-                        "name": value["name"],
-                        "totalTime": value["totalTime"]
-                    });
+                unsortedList.push({
+                    "name": value["name"],
+                    "totalTime": value["totalTime"]
                 });
-                
-                const sortedList = unsortedList.sort((a, b) => b["totalTime"] - a["totalTime"]);
-
-                resolve(sortedList);
             });
+            
+            const sortedList = unsortedList.sort((a, b) => b["totalTime"] - a["totalTime"]);
+
+            return sortedList;
         });
     }, 
 
@@ -57,63 +77,54 @@ module.exports = {
             return result;
         }
     
-    
-    
-        return new Promise((resolve) => {
-            fs.readFile('./db.json', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-                let content = JSON.parse(data);
-                let newId = makeid(7);
+        let data = fs.readFileSync('./db.json', (err) => {
+            if (err) throw err})
             
-                while (content[newId] != undefined) {
-                    newId = makeid(7);
-                }
+            let content = JSON.parse(data);
+            let newId = makeid(7);
+        
+            while (content[newId] != undefined) {
+                newId = makeid(7);
+            }
+            
+            content[newId] = {
+                "name": name,
+                "totalTime": 0,
+                "schoold": id,
+                "working": false,
+                "logs": []
                 
-                content[newId] = {
-                    "name": name,
-                    "totalTime": 0,
-                    "schoold": id,
-                    "working": false,
-                    "logs": []
-                    
-                }
+            }
 
-                fs.writeFile('./db.json', JSON.stringify(content), (err) => {
-                    if (err) throw err;
-                });
-
-                resolve(content[newId]);
+            fs.writeFileSync('./db.json', JSON.stringify(content), (err) => {
+                if (err) throw err;
             });
-        });
+
+            return content[newId];
     },
 
     startUserHours: (id) => {
-        return new Promise((resolve) => {
-            fs.readFile('./db.json', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-                let content = JSON.parse(data);
+        fs.readFile('./db.json', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            let content = JSON.parse(data);
 
-                if (content[id] == undefined) {
-                    resolve(null);
-                    return;
-                } 
+            if (content[id] == undefined) {
+                return null;
+            } 
 
-                content[id]["working"] = true;
-                content[id]["logs"].push({
-                    "date": new Date().toJSON().slice(0, 10).replace(/-/g, "/"),
-                    "startHour": Date.now()
-                });
-
-                fs.writeFile("./db.json", JSON.stringify(content), (err) => {
-                    if (err) throw err;
-                });
-
-                resolve(true);
+            content[id]["working"] = true;
+            content[id]["logs"].push({
+                "date": new Date().toJSON().slice(0, 10).replace(/-/g, "/"),
+                "startHour": Date.now()
             });
+
+            fs.writeFile("./db.json", JSON.stringify(content), (err) => {
+                if (err) throw err;
+            });
+
+            return true;
         });
     },
 
@@ -170,25 +181,19 @@ module.exports = {
         });
     },
     
-    getNameFromRandId: (randId) => {
-        return new Promise((resolve) => {
-            fs.readFile('./db.json', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-                let content = JSON.parse(data);
+    getNameFromRandId: function(randId)  {
+        
+        let data =  fs.readFileSync('./db.json');
+        let content =JSON.parse(data);
 
-                if (content[randId] == undefined) {
-                    resolve(null);
-                    return;
-                } 
-
-                
-
+        if (content[randId] == undefined) {
+            
+            return undefined;
+        }
+        return content[randId]["name"]
                 
                
-                resolve(content[randId]["name"]);
-            });
-        });
-    },
+    
+        
+    }
 }
