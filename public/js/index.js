@@ -10,6 +10,7 @@ fetch("/getLeaderboard").then(data => data.json()).then(list => {
     
     list.forEach(entry => {
         let indicatorColor = "red";
+        console.log(entry["working"])
         if (entry["working"]) indicatorColor = "green";
         lb.innerHTML += "<div class='lb-item' style='border-left: 3px solid "+indicatorColor+"'><div class='lb-name'>" + entry["name"] + "</div><div class='lb-time'>" + toHours(entry["totalTime"]) + " Hours</div>";
     });
