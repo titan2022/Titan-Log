@@ -6,11 +6,13 @@ const toHours = ts => {
 fetch("/getLeaderboard").then(data => data.json()).then(list => {
     lb = document.getElementById("leaderboard");
     
-    
-    
     list.forEach(entry => {
         let indicatorColor = "3px solid red";
         if (entry["working"]) indicatorColor = "5px solid green";
         lb.innerHTML += "<div class='lb-item' style='border-left: "+indicatorColor+"'><div class='lb-name'>" + entry["name"] + "</div><div class='lb-time'>" + toHours(entry["totalTime"]) + " Hours</div>";
     });
 }).catch(e => console.log(e));
+
+setInterval(() => {
+    location.reload();
+}, 5 * 60 * 1000);
