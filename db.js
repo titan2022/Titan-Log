@@ -62,7 +62,8 @@ module.exports = {
 
             unsortedList.push({
                 "name": value["name"],
-                "totalTime": value["totalTime"] + unfinishedTime
+                "totalTime": value["totalTime"] + unfinishedTime,
+                "working": value["working"]
             });
         });
 
