@@ -139,10 +139,11 @@ module.exports = {
 
     endUserHours: (id, message) => {
         console.log(id, message)
-        fs.readFile('./db.json', (err, data) => {
+        let data = fs.readFileSync('./db.json', (err) => {
             if (err) {
                 throw err;
             }
+        })
             let content = JSON.parse(data);
 
             if (content[id] == undefined) {
@@ -157,12 +158,12 @@ module.exports = {
 
             content[id]["totalTime"] += content[id]["logs"].at(-1)["endHour"] - content[id]["logs"].at(-1)["startHour"]
 
-            fs.writeFile("./db.json", JSON.stringify(content), (err) => {
+            fs.writeFileSync("./db.json", JSON.stringify(content), (err) => {
                 if (err) throw err;
             });
 
             return true;
-        });
+        ;
     },
 
 
