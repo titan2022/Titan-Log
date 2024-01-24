@@ -138,7 +138,6 @@ module.exports = {
     },
 
     endUserHours: (id, message) => {
-        console.log(id, message)
         let data = fs.readFileSync('./db.json', (err) => {
             if (err) {
                 throw err;
@@ -150,7 +149,7 @@ module.exports = {
                 return;
             }
 
-            console.log(id, message)
+            console.log(id + "Signed out: " + message)
 
             content[id]["working"] = false;
             content[id]["logs"].at(-1)["endHour"] = Date.now();
