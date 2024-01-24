@@ -5,7 +5,12 @@ const toHours = ts => {
 
 fetch("/getLeaderboard").then(data => data.json()).then(list => {
     lb = document.getElementById("leaderboard");
+    
+    
+    
     list.forEach(entry => {
-        lb.innerHTML += "<div class='lb-item'><div class='lb-name'>" + entry["name"] + "</div><div class='lb-time'>" + toHours(entry["totalTime"]) + " Hours</div>";
+        let indicatorColor = "red";
+        if (entry["working"]) indicatorColor = "green";
+        lb.innerHTML += "<div class='lb-item' style='border-left: 3px solid "+indicatorColor+"'><div class='lb-name'>" + entry["name"] + "</div><div class='lb-time'>" + toHours(entry["totalTime"]) + " Hours</div>";
     });
 }).catch(e => console.log(e));

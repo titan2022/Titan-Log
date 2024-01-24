@@ -54,7 +54,8 @@ module.exports = {
 
             unsortedList.push({
                 "name": value["name"],
-                "totalTime": value["totalTime"]
+                "totalTime": value["totalTime"],
+                "working": value["working"]
             });
         });
 
