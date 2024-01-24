@@ -52,10 +52,17 @@ module.exports = {
         Object.keys(content).forEach(key => {
             const value = content[key];
 
+            let unfinishedTime = 0;
+
+            value["logs"].forEach(entry => {
+                if (entry["endHour"] == undefined) {
+                    unfinishedTime += Date.now() - entry["startHour"];
+                }
+            });
+
             unsortedList.push({
                 "name": value["name"],
-                "totalTime": value["totalTime"],
-                "working": value["working"]
+                "totalTime": value["totalTime"] + unfinishedTime
             });
         });
 
