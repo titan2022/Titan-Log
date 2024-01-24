@@ -58,7 +58,7 @@ const signIn = async () => {
         document.getElementById("next-step").appendChild(optionContainer);
 
         const inputLabel = document.createElement("div");
-        inputLabel.innerHTML = "Message: ";
+        inputLabel.innerHTML = "Task(s) completed: ";
         inputLabel.classList.add("option-label");
         optionContainer.appendChild(inputLabel);
 
