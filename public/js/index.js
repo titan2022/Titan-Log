@@ -15,4 +15,4 @@ fetch("/getLeaderboard").then(data => data.json()).then(list => {
 
 setInterval(() => {
     location.reload();
-}, 5 * 60 * 1000);
+}, 30 * 1000);
