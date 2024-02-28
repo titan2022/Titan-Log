@@ -27,7 +27,10 @@ module.exports = {
                 return null;
             }
 
-            return content[id]["totalTime"];
+            return {
+                "totalTime": content[id]["totalTime"],
+                "preCompTime": content[id]["preCompTime"]
+            };
         });
     },
 
@@ -42,7 +45,7 @@ module.exports = {
         return content[id]["working"];
     },
 
-    getLeaderboard: () => {
+    getLeaderboard: (sorting) => {
         const data = fs.readFileSync('./db.json');
 
         const content = JSON.parse(data);
@@ -63,11 +66,12 @@ module.exports = {
             unsortedList.push({
                 "name": value["name"],
                 "totalTime": value["totalTime"] + unfinishedTime,
+                "preCompTime": value["preCompTime"] + unfinishedTime,
                 "working": value["working"]
             });
         });
 
-        const sortedList = unsortedList.sort((a, b) => b["totalTime"] - a["totalTime"]);
+        const sortedList = unsortedList.sort((a, b) => b[sorting] - a[sorting]);
 
         return sortedList;
     },
@@ -99,10 +103,10 @@ module.exports = {
         content[newId] = {
             "name": name,
             "totalTime": 0,
+            "preCompTime": 0,
             "schoold": id,
             "working": false,
             "logs": []
-
         }
 
         fs.writeFileSync('./db.json', JSON.stringify(content), (err) => {
@@ -143,29 +147,50 @@ module.exports = {
                 throw err;
             }
         })
-            let content = JSON.parse(data);
 
-            if (content[id] == undefined) {
-                return;
-            }
+        let content = JSON.parse(data);
 
-            console.log(id + "Signed out: " + message)
+        if (content[id] == undefined) {
+            return;
+        }
 
-            content[id]["working"] = false;
-            content[id]["logs"].at(-1)["endHour"] = Date.now();
-            content[id]["logs"].at(-1)["message"] = message;
+        console.log(id + "Signed out: " + message)
 
-            content[id]["totalTime"] += content[id]["logs"].at(-1)["endHour"] - content[id]["logs"].at(-1)["startHour"]
+        content[id]["working"] = false;
+        content[id]["logs"].at(-1)["endHour"] = Date.now();
+        content[id]["logs"].at(-1)["message"] = message;
 
-            fs.writeFileSync("./db.json", JSON.stringify(content), (err) => {
-                if (err) throw err;
-            });
+        content[id]["totalTime"] += content[id]["logs"].at(-1)["endHour"] - content[id]["logs"].at(-1)["startHour"]
+        content[id]["preCompTime"] += content[id]["logs"].at(-1)["endHour"] - content[id]["logs"].at(-1)["startHour"]
 
-            return true;
-        ;
+        fs.writeFileSync("./db.json", JSON.stringify(content), (err) => {
+            if (err) throw err;
+        });
+
+        return true;
     },
 
+    resetPreCompHours: (id) => {
+        let data = fs.readFileSync('./db.json', (err) => {
+            if (err) {
+                throw err;
+            }
+        })
+        
+        let content = JSON.parse(data);
 
+        if (content[id] == undefined) {
+            return;
+        }
+        
+        content[id]["preCompTime"] = 0;
+
+        fs.writeFileSync("./db.json", JSON.stringify(content), (err) => {
+            if (err) throw err;
+        });
+
+        return true;
+    },
 
     clearSessions: () => {
         fs.readFile('./db.json', (err, data) => {

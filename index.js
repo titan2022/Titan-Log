@@ -16,10 +16,8 @@ app.get("/getAllUsers", (req, res) => {
 });
 
 app.post("/getUserTime", (req, res) => {
-    const userTime =  getUserTime(req.body["id"]);
-    res.json({
-        "totalTime": userTime
-    });
+    const userTime = getUserTime(req.body["id"]);
+    res.json(userTime);
 });
 
 app.post("/getUserStatus", (req, res) => {
@@ -30,7 +28,7 @@ app.post("/getUserStatus", (req, res) => {
 });
 
 app.get("/getLeaderboard", (req, res) => {
-    const leaderboard = getLeaderboard();
+    const leaderboard = getLeaderboard("preCompTime");
     res.json(leaderboard)
 });
 

@@ -37,7 +37,7 @@ a.button {
 
 
 #leaderboard {
-    width: 400px;
+    width: 600px;
     margin: auto;
     text-align: left;
 }
@@ -58,6 +58,9 @@ a.button {
 
 .lb-time {
     float: right;
+    margin-right: 64px;
+    width: 100px;
+    text-align: right;
 }
 
 
@@ -79,4 +82,16 @@ input {
 
 .option-input {
     display: inline-block;
+}
+
+
+
+#cutoff {
+    padding: 20px 0px 20px 0px;
+    position: relative;
+    display: inline-block;
+    color: gray;
+    width: 600px;
+    text-align: center;
+    border-bottom: 1px #c4c4c4 solid;
 }
