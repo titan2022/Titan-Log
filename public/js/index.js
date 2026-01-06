@@ -14,10 +14,10 @@ fetch("/getLeaderboard").then(data => data.json()).then(list => {
 
         const preCompHours = toHours(entry["preCompTime"]);
 
-        if (!cutoffAdded && preCompHours <= 15) {
-            lb.innerHTML += "<div id='cutoff'>--------------------&emsp; Competition Hours Cut-off &emsp;--------------------</div>";
-            cutoffAdded = true;
-        }
+        // if (!cutoffAdded && preCompHours <= 15) {
+        //     lb.innerHTML += "<div id='cutoff'>--------------------&emsp; Competition Hours Cut-off &emsp;--------------------</div>";
+        //     cutoffAdded = true;
+        // }
 
         lb.innerHTML += "<div class='lb-item' style='border-left: "+indicatorColor+"'><div class='lb-name'>" + entry["name"] + "</div><div class='lb-time'>" + toHours(entry["totalTime"]) + " Hours</div><div class='lb-time'>" + preCompHours + " Hours</div>";
     });
